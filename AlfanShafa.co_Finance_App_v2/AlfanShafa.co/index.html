@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#14243d">
+  <title>Alfan&Shafa.co — Personal Finance</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">A&S</span><div><b>Alfan&Shafa.co</b><small>PERSONAL FINANCE</small></div></div>
+    <p class="nav-label">OVERVIEW</p>
+    <button class="nav active" data-page="dashboard">▦ <span>Dashboard</span></button>
+    <button class="nav" data-page="transactions">↔ <span>Transaksi</span></button>
+    <button class="nav" data-page="reports">▥ <span>Laporan Keuangan</span></button>
+    <p class="nav-label">MONEY MANAGEMENT</p>
+    <button class="nav" data-page="budgets">◫ <span>Anggaran</span></button>
+    <button class="nav" data-page="savings">◈ <span>Tabungan</span></button>
+    <button class="nav" data-page="emergency">✚ <span>Dana Darurat</span></button>
+    <button class="nav" data-page="goals">◎ <span>Target Keuangan</span></button>
+    <p class="nav-label">OBLIGATIONS</p>
+    <button class="nav" data-page="debts">⇄ <span>Utang & Piutang</span></button>
+    <button class="nav" data-page="recurring">⟳ <span>Tagihan & Rutin</span></button>
+    <div class="sidebar-bottom"><button class="nav" data-page="settings">⚙ <span>Pengaturan & Data</span></button><small>ALFAN&SHAFA.CO v1.1</small></div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><div class="eyebrow">PERSONAL FINANCIAL OVERVIEW</div><h1 id="pageTitle">Dashboard</h1><div id="today" class="muted"></div></div>
+      <div class="top-actions"><button class="btn secondary" id="exportCsv">↓ Export CSV</button><button class="btn primary" id="addTransaction">＋ Tambah Transaksi</button></div>
+    </header>
+    <nav class="mobile-nav">
+      <button data-page="dashboard">Dashboard</button><button data-page="transactions">Transaksi</button><button data-page="budgets">Anggaran</button><button data-page="savings">Tabungan</button><button data-page="emergency">Dana Darurat</button><button data-page="goals">Target</button><button data-page="reports">Laporan</button><button data-page="debts">Utang</button><button data-page="recurring">Tagihan</button><button data-page="settings">Pengaturan</button>
+    </nav>
+
+    <section class="page active" id="page-dashboard">
+      <div class="section-row"><b>Ringkasan Keuangan</b><input type="month" id="dashMonth" class="input month"></div>
+      <div class="stats">
+        <article class="card"><label>TOTAL SALDO</label><strong id="totalBalance">Rp0</strong><small>Akumulasi pemasukan - pengeluaran</small></article>
+        <article class="card"><label>PEMASUKAN</label><strong class="green" id="totalIncome">Rp0</strong><small>Bulan terpilih</small></article>
+        <article class="card"><label>PENGELUARAN</label><strong class="red" id="totalExpense">Rp0</strong><small>Bulan terpilih</small></article>
+        <article class="card"><label>ARUS KAS BERSIH</label><strong id="netFlow">Rp0</strong><small>Pemasukan - pengeluaran</small></article>
+      </div>
+      <div class="two-col">
+        <article class="card"><div class="card-heading"><b>Arus Kas Bulanan</b><span class="tag">6 bulan</span></div><div id="cashChart" class="cash-chart"></div><div class="legend"><span>● Pemasukan</span><span class="red">● Pengeluaran</span></div></article>
+        <article class="card"><b>Alokasi Keuangan</b><div id="allocation" class="allocation"></div></article>
+      </div>
+      <div class="two-col">
+        <article class="card"><div class="card-heading"><b>Dana Darurat</b><button class="text-btn" data-jump="emergency">Detail →</button></div><strong id="dashEmergency">Rp0</strong><p id="emergencyPct" class="muted"></p><div class="progress"><i id="emergencyBar"></i></div></article>
+        <article class="card"><div class="card-heading"><b>Target Tabungan</b><button class="text-btn" data-jump="goals">Detail →</button></div><div id="dashGoals"></div></article>
+      </div>
+      <article class="card"><div class="card-heading"><b>Transaksi Terbaru</b><button class="text-btn" data-jump="transactions">Semua transaksi →</button></div><div id="recentTransactions" class="table-wrap"></div></article>
+    </section>
+
+    <section class="page" id="page-transactions">
+      <article class="card">
+        <div class="card-heading"><div><b>Riwayat Transaksi</b><p class="muted">Catat dan telusuri semua aktivitas keuangan.</p></div><button class="btn primary" id="addTransaction2">＋ Tambah Baru</button></div>
+        <div class="filters"><input id="searchTx" class="input" placeholder="Cari transaksi..."><select id="filterType" class="input"><option value="">Semua jenis</option><option value="income">Pemasukan</option><option value="expense">Pengeluaran</option><option value="saving">Alokasi tabungan</option></select><select id="filterCat" class="input"><option value="">Semua kategori</option></select><input type="month" id="filterDate" class="input"></div>
+        <div id="transactionTable" class="table-wrap"></div>
+      </article>
+    </section>
+
+    <section class="page" id="page-budgets">
+      <div class="section-row"><div><b>Perencanaan Anggaran</b><p class="muted">Kontrol pengeluaran berdasarkan kategori.</p></div><button class="btn primary" id="addBudget">＋ Anggaran</button></div>
+      <article class="card"><label>TOTAL ANGGARAN</label><strong id="budgetTotal">Rp0</strong><div class="progress"><i id="budgetOverall"></i></div><small id="budgetUsed" class="muted"></small></article>
+      <div id="budgetList" class="cards-grid"></div>
+    </section>
+
+    <section class="page" id="page-savings">
+      <div class="section-row"><div><b>Manajemen Tabungan</b><p class="muted">Kelola simpanan dalam beberapa pos.</p></div><button class="btn primary" id="addSaving">＋ Pos Tabungan</button></div>
+      <div class="stats two"><article class="card"><label>TOTAL TABUNGAN</label><strong id="savingTotal">Rp0</strong></article><article class="card"><label>JUMLAH POS</label><strong id="savingCount">0</strong></article></div>
+      <div id="savingList" class="cards-grid"></div>
+    </section>
+
+    <section class="page" id="page-emergency">
+      <article class="card emergency-card"><label>EMERGENCY FUND MANAGEMENT</label><strong id="emFundAmount">Rp0</strong><p class="muted">Dana darurat terkumpul</p><div class="progress"><i id="emFundBar"></i></div><div class="between muted"><span id="emFundProgress">0% tercapai</span><span id="emFundTarget">Target Rp0</span></div><div class="button-row"><button class="btn primary" id="emAdd">＋ Tambah Dana</button><button class="btn secondary" id="emTarget">Ubah Target</button></div></article>
+      <div class="stats two"><article class="card"><label>PENGELUARAN POKOK / BULAN</label><strong id="monthlyNeeds">Rp0</strong></article><article class="card"><label>CAKUPAN DANA DARURAT</label><strong id="coverage">0 bulan</strong></article></div>
+      <p class="muted note">Panduan umum: target dana darurat dapat disesuaikan dengan kebutuhan. Sebagai ilustrasi, 3–6 bulan pengeluaran pokok untuk kondisi pekerjaan relatif stabil, atau lebih besar jika memiliki tanggungan atau pendapatan tidak tetap.</p>
+    </section>
+
+    <section class="page" id="page-goals">
+      <div class="section-row"><div><b>Financial Goals</b><p class="muted">Rencanakan dan pantau target finansial.</p></div><button class="btn primary" id="addGoal">＋ Target Baru</button></div>
+      <div id="goalList" class="cards-grid"></div>
+    </section>
+
+    <section class="page" id="page-debts">
+      <div class="section-row"><div><b>Utang & Piutang</b><p class="muted">Kelola kewajiban dan uang yang harus diterima.</p></div><button class="btn primary" id="addDebt">＋ Catat Baru</button></div>
+      <div class="stats two"><article class="card"><label>TOTAL UTANG</label><strong class="red" id="debtOut">Rp0</strong></article><article class="card"><label>TOTAL PIUTANG</label><strong class="green" id="debtIn">Rp0</strong></article></div>
+      <article class="card" id="debtList"></article>
+    </section>
+
+    <section class="page" id="page-recurring">
+      <div class="section-row"><div><b>Tagihan & Transaksi Rutin</b><p class="muted">Daftar kewajiban dan pemasukan berkala.</p></div><button class="btn primary" id="addRecurring">＋ Tambah Rutin</button></div>
+      <article class="card" id="recurringList"></article>
+    </section>
+
+    <section class="page" id="page-reports">
+      <div class="section-row"><div><b>Analisis Keuangan</b><p class="muted">Statistik dan evaluasi finansial.</p></div><input type="month" id="reportMonth" class="input month"></div>
+      <div class="stats three"><article class="card"><label>INCOME</label><strong class="green" id="repIn">Rp0</strong></article><article class="card"><label>EXPENSE</label><strong class="red" id="repOut">Rp0</strong></article><article class="card"><label>SAVINGS RATE</label><strong id="repRate">0%</strong></article></div>
+      <div class="two-col"><article class="card"><b>Pengeluaran per Kategori</b><div id="categoryReport" class="allocation"></div></article><article class="card"><b>Analisis Arus Kas</b><div id="reportInsight" class="allocation"></div></article></div>
+    </section>
+
+    <section class="page" id="page-settings">
+      <div class="section-row"><div><b>Pengaturan & Manajemen Data</b><p class="muted">Personalisasi aplikasi dan kelola data keuangan.</p></div></div>
+      <article class="card settings-card"><b>Profil Keuangan</b><label>Nama pemilik</label><input id="owner" class="input" placeholder="Nama Anda"><label>Target dana darurat (Rp)</label><input id="targetSetting" type="number" class="input"><label>Pengeluaran pokok bulanan (Rp)</label><input id="needsSetting" type="number" class="input"><button class="btn primary" id="saveSettings">Simpan Pengaturan</button></article>
+      <article class="card settings-card"><b>Backup & Restore</b><p class="muted">Ekspor seluruh data keuangan dalam format JSON.</p><div class="button-row"><button class="btn primary" id="backup">↓ Backup JSON</button><label class="btn secondary file-label">↑ Restore JSON<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div></article>
+      <article class="card settings-card"><b>Data Contoh</b><p class="muted">Isi contoh transaksi untuk mencoba fitur aplikasi.</p><button class="btn secondary" id="demo">Muat Data Contoh</button></article>
+      <article class="card settings-card danger-zone"><b>Zona Berbahaya</b><p class="muted">Hapus seluruh data lokal aplikasi. Lakukan backup terlebih dahulu.</p><button class="btn danger" id="reset">Hapus Semua Data</button></article>
+    </section>
+    <footer>ALFAN&SHAFA.CO · PERSONAL FINANCIAL MANAGEMENT · DATA TERSIMPAN DI BROWSER</footer>
+  </main>
+</div>
+
+<div class="modal hidden" id="modal"><div class="modal-box"><div class="modal-head"><h2 id="modalTitle">Tambah Data</h2><button id="closeModal" aria-label="Tutup">×</button></div><div id="modalBody"></div></div></div>
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body></html>
